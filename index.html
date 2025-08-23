@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚡ Garz All Payment ⚡</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Courier New", monospace;
+      background: #000;
+      color: #00ff99;
+      text-align: center;
+      padding: 30px;
+      overflow-x: hidden;
+    }
+    html { scroll-behavior: smooth; }
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -3;
+    }
+    .container { max-width: 500px; margin: auto; }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 25px;
+      text-shadow: 0 0 15px #00ff99, 0 0 30px #00ffcc;
+    }
+    .box {
+      border: 2px solid #00ff99;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 0 20px #00ff99;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .payment-option {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #00ff99;
+      color: #000;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+    .payment-option:hover {
+      background: #00cc77;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="container">
+    <h1>⚡ Garz All Payment ⚡</h1>
+
+    <div class="box">
+      <a href="https://link.dana.id/xxxx" class="payment-option" target="_blank">💰 DANA</a>
+      <a href="https://link.ovo.id/xxxx" class="payment-option" target="_blank">📱 OVO</a>
+      <a href="https://link.gopay.co.id/xxxx" class="payment-option" target="_blank">⚡ GOPAY</a>
+      <a href="https://link.qris.id/xxxx" class="payment-option" target="_blank">🔗 QRIS</a>
+    </div>
+
+    <div class="box">
+      <h2>Tentang Garz</h2>
+      <p>Garz All Payment adalah layanan all-in-one untuk mempermudah transaksi digital dengan cepat dan aman.</p>
+    </div>
+  </div>
+
+  <script>
+    // Matrix effect
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "01";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for (let x = 0; x < columns; x++) drops[x] = 1;
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0f0";
+      ctx.font = fontSize + "px monospace";
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 35);
+    window.addEventListener("resize", () => {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+    });
+  </script>
+</body>
+</html>
