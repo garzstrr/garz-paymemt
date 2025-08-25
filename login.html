@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Daftar - Sistem Verifikasi Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4e73df;
+            --secondary: #224abe;
+            --success: #1cc88a;
+            --danger: #e74a3b;
+            --warning: #f6c23e;
+            --light: #f8f9fc;
+            --dark: #5a5c69;
+        }
+        
+        body {
+            background: linear-gradient(120deg, #f5f8ff, #e3e6f0);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            font-size: 32px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo p {
+            color: var(--dark);
+            font-size: 16px;
+            max-width: 500px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .panel {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .panel-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .panel-body {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.1);
+        }
+        
+        .btn {
+            padding: 14px 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-success:hover {
+            background: #17a673;
+        }
+        
+        .notification {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .notification i {
+            font-size: 20px;
+        }
+        
+        .notification-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .notification-info {
+            background-color: #cce5ff;
+            color: #004085;
+            border: 1px solid #b8daff;
+        }
+        
+        .notification-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        .notification-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .user-dashboard {
+            display: none;
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+        
+        .user-welcome {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .user-welcome i {
+            font-size: 64px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .user-welcome h2 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .admin-link {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        .admin-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .admin-link a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <h1><i class="fas fa-lock"></i> Sistem Login & Daftar</h1>
+        <p>Silakan login atau daftar untuk mengakses sistem. Akun Anda perlu diverifikasi oleh admin sebelum dapat digunakan sepenuhnya.</p>
+    </div>
+    
+    <div class="container">
+        <!-- Panel Login -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Masukkan email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Masukkan password">
+                </div>
+                <button class="btn btn-block" onclick="login()">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                
+                <div id="login-notification" class="notification hidden"></div>
+            </div>
+        </div>
+        
+        <!-- Panel Daftar -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-user-plus"></i> Daftar Akun Baru</h2>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="register-name">Nama Lengkap</label>
+                    <input type="text" id="register-name" placeholder="Masukkan nama lengkap">
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Masukkan email">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Buat password (min. 6 karakter)">
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Konfirmasi Password</label>
+                    <input type="password" id="register-confirm-password" placeholder="Konfirmasi password">
+                </div>
+                <button class="btn btn-block" onclick="register()">
+                    <i class="fas fa-user-plus"></i> Daftar
+                </button>
+                
+                <div id="register-notification" class="notification hidden"></div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Pengguna -->
+        <div class="panel user-dashboard" id="user-dashboard">
+            <div class="panel-header">
+                <h2><i class="fas fa-user-circle"></i> Dashboard Pengguna</h2>
+            </div>
+            <div class="panel-body">
+                <div class="user-welcome">
+                    <i class="fas fa-user-circle"></i>
+                    <h2>Selamat Datang, <span id="user-name">User</span>!</h2>
+                    <p>Email: <span id="user-email">user@example.com</span></p>
+                    <p>Status: <span id="user-status" class="status-badge">Menunggu</span></p>
+                </div>
+                
+                <div id="admin-notification" class="notification notification-info">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Menunggu Persetujuan Admin</strong>
+                        <p>Akun Anda sedang menunggu persetujuan admin. Anda akan dapat mengakses semua fitur setelah admin menyetujui.</p>
+                    </div>
+                </div>
+                
+                <div id="approved-notification" class="notification notification-success hidden">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Akun Telah Disetujui</strong>
+                        <p>Akun Anda telah disetujui oleh admin. Sekarang Anda dapat mengakses semua fitur.</p>
+                    </div>
+                </div>
+                
+                <button class="btn logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                
+                <div style="margin-top: 20px;">
+                    <button class="btn" onclick="checkApprovalStatus()">
+                        <i class="fas fa-sync-alt"></i> Periksa Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="admin-link">
+        <p>Apakah Anda admin? <a href="admin.html"><i class="fas fa-user-shield"></i> Buka halaman admin</a></p>
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 Sistem Login dengan Verifikasi Admin. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Data pengguna (disimulasikan)
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        
+        // Inisialisasi data jika belum ada
+        function initializeData() {
+            if (users.length === 0) {
+                users = [
+                    {
+                        id: 1,
+                        name: "Ahmad Sutisna",
+                        email: "ahmad@example.com",
+                        password: "password123",
+                        approved: false,
+                        registeredAt: "2023-05-15T10:30:00Z"
+                    },
+                    {
+                        id: 2,
+                        name: "Siti Rahayu",
+                        email: "siti@example.com",
+                        password: "password123",
+                        approved: true,
+                        registeredAt: "2023-05-10T14:22:00Z"
+                    },
+                    {
+                        id: 3,
+                        name: "Budi Santoso",
+                        email: "budi@example.com",
+                        password: "password123",
+                        approved: false,
+                        registeredAt: "2023-05-18T09:15:00Z"
+                    }
+                ];
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+        }
+        
+        // Fungsi untuk login pengguna
+        function login() {
+            initializeData(); // Pastikan data sudah diinisialisasi
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const notification = document.getElementById('login-notification');
+            
+            // Validasi input
+            if (!email || !password) {
+                notification.className = 'notification notification-error';
+                notification.innerHTML = '<i class="fas fa-exclamation-circle"></i> Harap isi semua field!';
+                notification.classList.remove('hidden');
+                return;
+            }
+            
+            // Cari pengguna
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Simpan pengguna yang sedang login
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Tampilkan dashboard
+                showUserDashboard();
+            } else {
+                notification.className = 'notification notification-error';
+                notification.innerHTML = '<i class="fas fa-exclamation-circle"></i> Email atau password salah!';
+                notification.classList.remove('hidden');
+            }
+        }
+        
+        // Fungsi untuk pendaftaran pengguna
+        function register() {
+            initializeData(); // Pastikan data sudah diinisialisasi
+            
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            const notification = document.getElementById('register-notification');
+            
+            // Validasi input
+            if (!name || !email || !password || !confirmPassword) {
+                notification.className = 'notification notification-error';
+                notification.innerHTML = '<i class="fas fa-exclamation-circle"></i> Harap isi semua field!';
+                notification.classList.remove('hidden');
+                return;
+            }
+            
+            // Validasi panjang password
+            if (password.length < 6) {
+                notification.className = 'notification notification-error';
+                notification.innerHTML = '<i class="fas fa-exclamation-circle"></i> Password harus minimal 6 karakter!';
+                notification.classList.remove('hidden');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                notification.className = 'notification notification-error';
+                notification.innerHTML = '<i class="fas fa-exclamation-circle"></i> Konfirmasi password tidak cocok!';
+                notification.classList.remove('hidden');
+                return;
+            }
+            
+            // Periksa apakah email sudah terdaftar
+            if (users.some(user => user.email === email)) {
+                notification.className = 'notification notification-error';
+                notification.innerHTML = '<i class="fas fa-exclamation-circle"></i> Email sudah terdaftar!';
+                notification.classList.remove('hidden');
+                return;
+            }
+            
+            // Buat pengguna baru (status diset false karena menunggu persetujuan admin)
+            const newUser = {
+                id: Date.now(), // ID unik
+                name,
+                email,
+                password,
+                approved: false,
+                registeredAt: new Date().toISOString()
+            };
+            
+            // Tambahkan pengguna ke array
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Tampilkan pesan sukses
+            notification.className = 'notification notification-success';
+            notification.innerHTML = '<i class="fas fa-check-circle"></i> Pendaftaran berhasil! Silakan login dan tunggu persetujuan admin.';
+            notification.classList.remove('hidden');
+            
+            // Kosongkan form
+            document.getElementById('register-name').value = '';
+            document.getElementById('register-email').value = '';
+            document.getElementById('register-password').value = '';
+            document.getElementById('register-confirm-password').value = '';
+            
+            // Auto login setelah pendaftaran
+            setTimeout(() => {
+                document.getElementById('login-email').value = email;
+                document.getElementById('login-password').value = password;
+                login();
+            }, 2000);
+        }
+        
+        // Fungsi untuk menampilkan dashboard pengguna
+        function showUserDashboard() {
+            document.querySelectorAll('.panel:not(#user-dashboard)').forEach(panel => {
+                panel.style.display = 'none';
+            });
+            document.getElementById('user-dashboard').classList.add('visible');
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-email').textContent = currentUser.email;
+            
+            // Tampilkan status persetujuan admin
+            updateUserStatus();
+        }
+        
+        // Fungsi untuk memperbarui status pengguna
+        function updateUserStatus() {
+            const statusElement = document.getElementById('user-status');
+            
+            if (currentUser.approved) {
+                statusElement.textContent = 'Disetujui';
+                statusElement.className = 'status-badge status-approved';
+                document.getElementById('admin-notification').classList.add('hidden');
+                document.getElementById('approved-notification').classList.remove('hidden');
+            } else {
+                statusElement.textContent = 'Menunggu';
+                statusElement.className = 'status-badge status-pending';
+                document.getElementById('admin-notification').classList.remove('hidden');
+                document.getElementById('approved-notification').classList.add('hidden');
+            }
+        }
+        
+        // Fungsi untuk memeriksa status persetujuan
+        function checkApprovalStatus() {
+            // Perbarui data dari localStorage
+            const updatedUsers = JSON.parse(localStorage.getItem('users')) || [];
+            const updatedUser = updatedUsers.find(u => u.id === currentUser.id);
+            
+            if (updatedUser) {
+                currentUser = updatedUser;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserStatus();
+                
+                const notification = document.getElementById('login-notification');
+                notification.className = 'notification notification-info';
+                notification.innerHTML = '<i class="fas fa-info-circle"></i> Status telah diperbarui!';
+                notification.classList.remove('hidden');
+                
+                // Sembunyikan notifikasi setelah 3 detik
+                setTimeout(() => {
+                    notification.classList.add('hidden');
+                }, 3000);
+            }
+        }
+        
+        // Fungsi untuk logout pengguna
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            
+            // Sembunyikan dashboard, tampilkan form login
+            document.getElementById('user-dashboard').classList.remove('visible');
+            document.querySelectorAll('.panel:not(#user-dashboard)').forEach(panel => {
+                panel.style.display = 'block';
+            });
+            
+            // Kosongkan form login
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+        }
+        
+        // Inisialisasi
+        window.onload = function() {
+            initializeData();
+            
+            // Periksa apakah user sudah login
+            if (currentUser) {
+                showUserDashboard();
+            }
+            
+            // Set nilai default untuk demo
+            document.getElementById('login-email').value = 'ahmad@example.com';
+            document.getElementById('login-password').value = 'password123';
+        };
+    </script>
+</body>
+</html>
